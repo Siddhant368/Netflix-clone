@@ -1,0 +1,55 @@
+.footer {
+  background-color: #111;
+  padding: 30px 0;
+  text-align: center;
+  color: #999;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 15px;
+}
+
+.icon {
+  font-size: 28px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  color: #fff;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+}
+
+
+.youtube:hover {
+  color: #ff0000;
+}
+
+.facebook:hover {
+  color: #1877f2;
+}
+
+.twitter:hover {
+  color: #1da1f2;
+}
+
+
+.instagram {
+  background: linear-gradient(
+    45deg,
+    #f58529,
+    #dd2a7b,
+    #8134af,
+    #515bd4
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer-text {
+  font-size: 14px;
+  margin-top: 10px;
+}
