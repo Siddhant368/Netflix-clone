@@ -6,13 +6,14 @@ const TitleCard = ({ title, category }) => {
   const [apiData, setApiData] = useState([]);
   const cardsRef = useRef(null);
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer YOUR_TMDB_BEARER_TOKEN",
-    },
+ const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNjY3YzdhNDYyMTBkNzVlNjUxMjE1MmUxNmQzMGI5ZSIsIm5iZiI6MTc2NjMyOTc4MS4xMjksInN1YiI6IjY5NDgwZGI1YTU3MDVjNzBhNDhjZTJjNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0DRSd7Hm15SPkTWmFeKyN59bqXSzV4kEozxHLogKkjA",
+  },
+
   };
 
   useEffect(() => {
