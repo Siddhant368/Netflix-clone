@@ -1,31 +1,47 @@
 .footer {
-  background-color: #111;
-  padding: 30px 0;
-  text-align: center;
-  color: #999;
+  width: 100%;
+  padding: 40px 20px;
+  background: #111;
+  color: #808080;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .social-icons {
   display: flex;
-  justify-content: center;
-  gap: 25px;
-  margin-bottom: 15px;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.social-icons a {
+  text-decoration: none;
 }
 
 .icon {
   font-size: 28px;
+  color: #b3b3b3;
+  transition: all 0.3s ease;
   cursor: pointer;
-  transition: transform 0.3s ease;
-  color: #fff;
 }
 
 .icon:hover {
-  transform: scale(1.2);
+  transform: translateY(-4px) scale(1.1);
+  color: #ffffff;
 }
 
-
+/* Brand Hover Colors */
 .youtube:hover {
   color: #ff0000;
+}
+
+.instagram:hover {
+  color: #e1306c;
 }
 
 .facebook:hover {
@@ -36,20 +52,60 @@
   color: #1da1f2;
 }
 
-
-.instagram {
-  background: linear-gradient(
-    45deg,
-    #f58529,
-    #dd2a7b,
-    #8134af,
-    #515bd4
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.footer-text {
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #8c8c8c;
+  letter-spacing: 0.4px;
 }
 
-.footer-text {
-  font-size: 14px;
-  margin-top: 10px;
+/* Tablet */
+@media (max-width: 768px) {
+  .footer {
+    padding: 35px 15px;
+  }
+
+  .social-icons {
+    gap: 18px;
+  }
+
+  .icon {
+    font-size: 24px;
+  }
+
+  .footer-text {
+    font-size: 13px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .footer {
+    padding: 30px 12px;
+  }
+
+  .social-icons {
+    gap: 16px;
+  }
+
+  .icon {
+    font-size: 22px;
+  }
+
+  .footer-text {
+    font-size: 12px;
+    max-width: 300px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 320px) {
+  .icon {
+    font-size: 20px;
+  }
+
+  .footer-text {
+    font-size: 11px;
+  }
 }

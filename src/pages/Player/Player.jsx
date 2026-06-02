@@ -1,79 +1,108 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import './Player.css'
-import { FaArrowLeft, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "./Player.css";
+import {
+  FaArrowLeft,
+  FaVolumeMute,
+  FaVolumeUp,
+} from "react-icons/fa";
 
 const Player = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const { id } = useParams()
-  const navigate = useNavigate()
-
-  const [trailerKey, setTrailerKey] = useState("")
-  const [mute, setMute] = useState(true)
-  const [loading, setLoading] = useState(true)
+  const [trailerKey, setTrailerKey] = useState("");
+  const [mute, setMute] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const options = {
-    method: 'GET',
+    method: "GET",
     headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNjY3YzdhNDYyMTBkNzVlNjUxMjE1MmUxNmQzMGI5ZSIsIm5iZiI6MTc2NjMyOTc4MS4xMjksInN1YiI6IjY5NDgwZGI1YTU3MDVjNzBhNDhjZTJjNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0DRSd7Hm15SPkTWmFeKyN59bqXSzV4kEozxHLogKkjA'
-    }
+      accept: "application/json",
+      Authorization:
+        "Bearer YOUR_TMDB_BEARER_TOKEN",
+    },
   };
 
   useEffect(() => {
-    fetch(`https://api.themoviedb.org/3/movie/${id}/videos`, options)
-      .then(res => res.json())
-      .then(data => {
-        const trailer = data.results.find(
-          video =>
+    const fetchTrailer = async () => {
+      try {
+        setLoading(true);
+
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}/videos`,
+          options
+        );
+
+        const data = await response.json();
+
+        const trailer = data?.results?.find(
+          (video) =>
             video.site === "YouTube" &&
-            (video.type === "Trailer" || video.type === "Teaser")
-        )
+            (video.type === "Trailer" ||
+              video.type === "Teaser")
+        );
 
         if (trailer) {
-          setTrailerKey(trailer.key)
+          setTrailerKey(trailer.key);
         }
+      } catch (error) {
+        console.error("Trailer Error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        setLoading(false)
-      })
-      .catch(() => setLoading(false))
-  }, [id])
+    fetchTrailer();
+  }, [id]);
 
   return (
     <div className="player">
-
-      {/* BACK BUTTON */}
-      <button className="back-btn" onClick={() => navigate(-1)}>
+      <button
+        className="back-btn"
+        onClick={() => navigate(-1)}
+      >
         <FaArrowLeft />
       </button>
 
-      {/* LOADER */}
-      {loading && <h2 className="loading">Loading trailer...</h2>}
+      {loading && (
+        <div className="loading-container">
+          <div className="loader"></div>
+          <h2>Loading Trailer...</h2>
+        </div>
+      )}
 
-      {/* TRAILER */}
       {!loading && trailerKey && (
-        <iframe
-          src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=${mute ? 1 : 0}`}
-          title="Trailer"
-          frameBorder="0"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-        ></iframe>
+        <>
+          <iframe
+            src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=${
+              mute ? 1 : 0
+            }&rel=0`}
+            title="Movie Trailer"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+
+          <button
+            className="volume-btn"
+            onClick={() => setMute(!mute)}
+          >
+            {mute ? <FaVolumeMute /> : <FaVolumeUp />}
+          </button>
+        </>
       )}
 
-      {/* FALLBACK */}
       {!loading && !trailerKey && (
-        <h2 className="no-trailer">Trailer not available 😢</h2>
-      )}
-
-      {/* VOLUME CONTROL */}
-      {trailerKey && (
-        <button className="volume-btn" onClick={() => setMute(!mute)}>
-          {mute ? <FaVolumeMute /> : <FaVolumeUp />}
-        </button>
+        <div className="no-trailer">
+          <h2>Trailer Not Available</h2>
+          <p>
+            Sorry, this movie currently has no
+            trailer available.
+          </p>
+        </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Player
+export default Player;

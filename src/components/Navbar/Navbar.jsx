@@ -1,27 +1,33 @@
-import React, { useEffect, useRef } from 'react'
-import './Navbar.css'
-import logo from '../../assets/logo.png'
-import { FaSearch, FaBell, FaCaretDown , FaUser } from "react-icons/fa";
-import { logout } from '../../firebase';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef } from "react";
+import "./Navbar.css";
+import { FaSearch, FaBell, FaCaretDown, FaUser } from "react-icons/fa";
+import { logout } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-
-  const navRef = useRef();
+  const navRef = useRef(null);
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    window.addEventListener('scroll', ()=>{
-      if(window.scrollY >= 80){
-        navRef.current.classList.add('nav-dark')
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!navRef.current) return;
+
+      if (window.scrollY >= 80) {
+        navRef.current.classList.add("nav-dark");
       } else {
-        navRef.current.classList.remove('nav-dark')
+        navRef.current.classList.remove("nav-dark");
       }
-    })
-  },[])
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <div ref={navRef} className='navbar'> 
+    <div ref={navRef} className="navbar">
       <div className="navbar-left">
         <div className="navbar-center">
           <div className="demogorgon-face">
@@ -40,29 +46,34 @@ const Navbar = () => {
           <li>TV Shows</li>
           <li>Movies</li>
           <li>New & Popular</li>
-          <li>My list</li>
-          <li>Browser by languages</li>
+          <li>My List</li>
+          <li>Browse by Languages</li>
         </ul>
       </div>
 
       <div className="navbar-right">
-        <FaSearch className='icons'/>
-        <p>children</p>
-        <FaBell className='icons' />
+        <FaSearch className="icons" />
+        <p>Children</p>
+        <FaBell className="icons" />
 
         <div className="navbar-profile">
-          <FaUser className='user-icon' />
-          <FaCaretDown className='user-icon'/>
+          <FaUser className="user-icon" />
+          <FaCaretDown className="user-icon" />
 
           <div className="fropdown">
-            <p onClick={async ()=>{ await logout(); navigate('/login'); }}>
+            <p
+              onClick={async () => {
+                await logout();
+                navigate("/login");
+              }}
+            >
               Sign Out of Netflix
             </p>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
